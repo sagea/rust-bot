@@ -9,11 +9,6 @@ pub struct Rect {
   pub height: i32,
 }
 
-struct from {}
-pub enum RectError {
-  No_,
-}
-
 impl Rect {
   pub fn from_size(x: i32, y: i32, width: i32, height: i32) -> Rect {
     Rect {
@@ -35,7 +30,7 @@ impl Rect {
       height: y1 - y2,
     }
   }
-  pub fn from_points_tupl((x1, y1): (i32, i32), (x2, y2): (i32, i32)) -> Rect {
+  pub fn from_points_tupl((x1, y1): (i32, i32), (x2, _y2): (i32, i32)) -> Rect {
     return Rect::from_points(x1, y1, x2, y1);
   }
   pub fn overlap(a: Rect, b: Rect) -> Option<Rect> {

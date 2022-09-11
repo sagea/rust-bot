@@ -1,5 +1,5 @@
-use core_graphics::display::CGDisplayScreenSize;
-use crossbeam::channel::{select, unbounded, Receiver};
+
+use crossbeam::channel::{unbounded, Receiver};
 
 use crate::screen;
 use crate::Vector;
@@ -10,8 +10,8 @@ use std::thread;
 #[derive(Debug, Clone, Copy)]
 
 pub enum MenuItemTrackerState {
-  active,
-  inactive,
+  Active,
+  Inactive,
 }
 
 fn is_slot_active(pixels: Vec<u8>) -> bool {
@@ -30,12 +30,10 @@ fn is_slot_active(pixels: Vec<u8>) -> bool {
   return (r as f32 / (b + g + r) as f32) > 0.5;
 }
 
-pub fn magic_menu_status_tracker() -> Receiver<MenuItemTrackerState> {
+pub fn magic_menu_status_tracker() -> Receiver<bool> {
   use crate::util::sleep_exact;
   let (sender, receiver) = unbounded();
   thread::spawn(move || {
-    // 1624, 240, 1652, 267
-    // 
     let rect = Vector::Rect::from_size(1624, 240, 5, 5);
     let mut last_state = 0 as u8;
     loop {
@@ -49,10 +47,10 @@ pub fn magic_menu_status_tracker() -> Receiver<MenuItemTrackerState> {
         }
         if last_state != cur_state {
           last_state = cur_state;
-          if (cur_state == 1) {
-            sender.send(MenuItemTrackerState::active).unwrap();
-          } else if (cur_state == 2) {
-            sender.send(MenuItemTrackerState::inactive).unwrap();
+          if cur_state == 1 {
+            sender.send(true).unwrap();
+          } else if cur_state == 2 {
+            sender.send(false).unwrap();
           }
         }
       } else {

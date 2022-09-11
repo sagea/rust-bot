@@ -10,7 +10,7 @@ pub struct Image {
 
 #[derive(Debug)]
 pub enum ImageErrors {
-  invalid_image,
+  InvalidImage,
 }
 pub fn screenshot(x: i32, y: i32, width: i32, height: i32) -> Result<Image, ImageErrors> {
   let displays = DisplayInfo::all().unwrap();
@@ -27,11 +27,9 @@ pub fn screenshot(x: i32, y: i32, width: i32, height: i32) -> Result<Image, Imag
     y1 = cmp::max(di.y, cmp::min(screen_y2, y1));
     x2 = cmp::min(x2, screen_x2);
     y2 = cmp::min(y2, screen_y2);
-    let diffx = x2 - x1;
-    let diffy = y2 - y1;
 
     if x1 >= x2 || y1 >= y2 {
-      return Err(ImageErrors::invalid_image);
+      return Err(ImageErrors::InvalidImage);
     }
     let cg_display = CGDisplay::new(di.id);
     let full_cg_image = cg_display.image().unwrap();
@@ -44,12 +42,12 @@ pub fn screenshot(x: i32, y: i32, width: i32, height: i32) -> Result<Image, Imag
       &CGSize::new(w as f64, h as f64),
     );
     let cg_image = full_cg_image.cropped(cg_rect).unwrap();
-    let mut bgra_image = Vec::from(cg_image.data().bytes());
+    let bgra_image = Vec::from(cg_image.data().bytes());
     return Ok(Image {
       width: cg_image.width() as i32,
       height: cg_image.height() as i32,
       pixels: bgra_image,
     })
   }
-  return Err(ImageErrors::invalid_image);
+  return Err(ImageErrors::InvalidImage);
 }
