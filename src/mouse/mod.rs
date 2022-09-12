@@ -4,7 +4,6 @@ use rand::Rng;
 use enigo::*;
 
 pub fn click() {
-  println!("clicked");
   let mut rng = rand::thread_rng();
   let mut enigo = Enigo::new();
   let n1 = rng.gen_range(7..10);

@@ -11,6 +11,9 @@ use crossbeam::channel::{select, unbounded, Sender, Receiver};
 use std::{thread, default};
 use std::time::Duration;
 use gui::Logs;
+use std::collections::HashMap;
+
+
 
 #[derive(PartialEq)]
 enum InEvents {
@@ -51,8 +54,6 @@ impl SequenceThread {
                     }
                     default(Duration::from_millis(50)) => {
                         if active == true {
-                            println!("Running");
-                            println!("len {} {}", actions.len(), cycle);
                             if cycle as i32 >= actions.len() as i32 {
                                 thread_sender.send(OutEvents::Completed).unwrap();
                                 active = false
@@ -181,7 +182,8 @@ impl App {
     }
 }
 
-
+// 868 70
+// 1686 565
 fn main() {
     let mut app = App::new();
     app.start();

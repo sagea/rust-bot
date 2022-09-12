@@ -6,6 +6,7 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use termion::{color, style};
 use std::thread;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub enum Logs {
