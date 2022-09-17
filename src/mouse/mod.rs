@@ -14,7 +14,7 @@ pub fn click() {
 }
 
 pub fn _get_mouse_position() -> (i32, i32) {
-  return Enigo::mouse_location();
+  Enigo::mouse_location()
 }
 
 pub fn on_mouse_position_change() -> Receiver<(i32, i32)> {
@@ -31,10 +31,10 @@ pub fn on_mouse_position_change() -> Receiver<(i32, i32)> {
         thread::sleep(Duration::from_millis(5));
     }
   });
-  return receiver;
+  receiver
 }
 
-fn output_mouse_location((x, y): (i32, i32)) -> () {
+fn output_mouse_location((x, y): (i32, i32)) {
   println!("{}:{}", x, y);
 }
 
@@ -51,5 +51,5 @@ pub fn on_mouse_position_change_2() -> mpsc::Receiver<(i32, i32)> {
       }
     }
   });
-  return rx;
+  rx
 }

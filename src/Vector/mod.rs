@@ -21,7 +21,7 @@ impl Rect {
     }
   }
   pub fn from_size_tupl((x1, y1): (i32, i32), (width, height): (i32, i32)) -> Rect {
-    return Rect::from_size(x1, y1, width, height);
+    Rect::from_size(x1, y1, width, height)
   }
   pub fn from_points(x1: i32, y1: i32, x2: i32, y2: i32) -> Rect {
     Rect {
@@ -31,7 +31,7 @@ impl Rect {
     }
   }
   pub fn from_points_tupl((x1, y1): (i32, i32), (x2, _y2): (i32, i32)) -> Rect {
-    return Rect::from_points(x1, y1, x2, y1);
+    Rect::from_points(x1, y1, x2, y1)
   }
   pub fn overlap(a: Rect, b: Rect) -> Option<Rect> {
     if a.x1 >= b.x2 { return None; }
@@ -42,15 +42,14 @@ impl Rect {
     let y1 = max(a.y1, b.y1);
     let x2 = min(a.x2, b.x2);
     let y2 = min(a.y2, b.y2);
-    return Some(Rect::from_points(x1, y1, x2, y2));
+    Some(Rect::from_points(x1, y1, x2, y2))
   }
   pub fn point_inside(rect: &Rect, x: i32, y: i32) -> bool {
     if rect.x1 > x || x > rect.x2 { false }
-    else if rect.y1 > y || y > rect.y2 { false }
-    else { true }
+    else { !(rect.y1 > y || y > rect.y2) }
   }
 
   pub fn point_inside_tupl(rect: &Rect, (x, y): (i32, i32)) -> bool {
-    return Rect::point_inside(rect, x, y)
+    Rect::point_inside(rect, x, y)
   }
 }

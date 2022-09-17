@@ -49,5 +49,5 @@ pub fn screenshot(x: i32, y: i32, width: i32, height: i32) -> Result<Image, Imag
       pixels: bgra_image,
     })
   }
-  return Err(ImageErrors::InvalidImage);
+  Err(ImageErrors::InvalidImage)
 }
