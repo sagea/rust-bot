@@ -5,15 +5,9 @@ mod inventory_manager;
 mod util;
 mod gui;
 mod app;
-
-
 use termion::input::MouseTerminal;
-
-
 use std::io::stdout;
 use std::{thread};
-
-
 use app::App;
 
 fn main() {
