@@ -4,6 +4,8 @@ mod inventory_manager;
 mod util;
 mod gui;
 mod app;
+mod vector;
+
 use termion::input::MouseTerminal;
 use std::io::stdout;
 use std::{thread};

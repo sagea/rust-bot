@@ -546,7 +546,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "runescape-bots"
+name = "rust-bots"
 version = "0.1.0"
 dependencies = [
  "clearscreen",
