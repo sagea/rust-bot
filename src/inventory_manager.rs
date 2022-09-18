@@ -2,7 +2,7 @@
 use crossbeam::channel::{unbounded, Receiver};
 
 use crate::screen;
-use crate::Vector;
+use crate::vector;
 
 use crate::gui;
 
@@ -111,7 +111,7 @@ fn is_slot_active(pixels: &ImagePixelResults) -> bool {
 }
 
 pub fn magic_menu_status_tracker() -> Receiver<bool> {
-  use Vector::Rect;
+  use vector::Rect;
   let _top = 237;
   // 270
   // 30
@@ -128,7 +128,7 @@ pub fn magic_menu_status_tracker() -> Receiver<bool> {
   menu_active_tracker("Magic", Rect::from_size(1658, 238, 5, 5))
 }
 
-pub fn menu_active_tracker(logGroup: &'static str, rect: Vector::Rect) -> Receiver<bool> {
+pub fn menu_active_tracker(logGroup: &'static str, rect: vector::Rect) -> Receiver<bool> {
   use crate::util::sleep_exact;
   
   

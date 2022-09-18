@@ -1,10 +1,10 @@
 use crate::mouse;
-use crate::Vector;
+use crate::vector;
 use crate::inventory_manager;
 use crate::util;
 use crate::gui;
 
-use Vector::{Rect};
+use vector::{Rect};
 
 use util::sleep;
 use crossbeam::channel::{select, unbounded, Sender, Receiver};

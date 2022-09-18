@@ -1,6 +1,5 @@
 mod screen;
 mod mouse;
-mod Vector;
 mod inventory_manager;
 mod util;
 mod gui;
