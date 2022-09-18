@@ -145,10 +145,7 @@ pub fn menu_active_tracker(logGroup: &'static str, rect: vector::Rect) -> Receiv
       
       if let Ok(image) = screenshot {
         let cur_px_details = ImagePixelResults::from_pixel_bytes(&image.pixels);
-        if og[1] == cur_px_details {
-          // gui::set_group("Pixels ggggg", "bro ", "equals".to_string());
-        } else {
-          // gui::set_group("Pixels ggggg", "bro ", "notequals".to_string());
+        if og[1] != cur_px_details {
           let f = &mut og;
           f[0] = f[1];
           f[1] = cur_px_details;
@@ -156,17 +153,11 @@ pub fn menu_active_tracker(logGroup: &'static str, rect: vector::Rect) -> Receiv
         let a = og[0];
         let b = og[1];
         let diff = a - b;
-        // let dif_px_details = og[0] - og[1];
         gui::set_group(logGroup.clone(), "last", og[0].to_avgs_string());
         gui::set_group(logGroup.clone(), "now ", cur_px_details.to_avgs_string());
         gui::set_group(logGroup.clone(), "diff", diff.clone().to_avgs_string());
 
-        // gui::set_group("Pixels (avg)", "last2", og[1].to_avgs_string());
-
-        if og[1] == cur_px_details {
-          // gui::set_group("Pixels ggggg", "bro ", "equals".to_string());
-        } else {
-          // gui::set_group("Pixels ggggg", "bro ", "notequals".to_string());
+        if og[1] != cur_px_details {
           let f = &mut og;
           f[0] = f[1];
           f[1] = cur_px_details;
