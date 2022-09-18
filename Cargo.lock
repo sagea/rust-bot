@@ -555,6 +555,7 @@ dependencies = [
  "display-info",
  "enigo",
  "lazy_static",
+ "once_cell",
  "paste",
  "rand 0.8.5",
  "termion",

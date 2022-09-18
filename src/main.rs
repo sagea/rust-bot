@@ -181,25 +181,19 @@ impl App {
     }
 }
 
-// 868 70
-// 1686 565
 fn main() {
     use termion::event::Key;
     use termion::input::TermRead;
     use termion::raw::IntoRawMode;
-    // use gui::{init};
+    use gui::{start};
     use std::io::{stdin};
-
-
+    start();
     let stdout = MouseTerminal::from(stdout().into_raw_mode().unwrap());
-    // init();
-
     let stdin = stdin();
     thread::spawn(|| {
         let mut app = App::new();
         app.start();
     });
-
     for c in stdin.keys() {
         let val = c.unwrap();
         match val {
