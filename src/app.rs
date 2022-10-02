@@ -1,4 +1,6 @@
+use crate::inventory_manager::when_magic_active;
 use crate::mouse;
+use crate::mouse::when_mouse_enters;
 use crate::vector;
 use crate::inventory_manager;
 use crate::util;
@@ -9,6 +11,7 @@ use vector::{Rect};
 use util::sleep;
 use crossbeam::channel::{select, unbounded, Sender, Receiver};
 
+use std::future::Future;
 use std::{thread};
 use std::time::Duration;
 use gui::{Logs};
@@ -87,10 +90,13 @@ pub struct App {
     run_count_current: i32,
     is_point_in_bounds: bool,
     status: AppStatus,
+    gui: gui::Gui,
 }
 
 impl App {
-    pub fn new() -> Self {
+    pub fn new(
+        gui: gui::Gui,
+    ) -> Self {
         let mut actions: Vec<fn () -> ()> = Vec::new();
         actions.push(|| sleep(500, 1000));
         actions.push(mouse::click);
@@ -105,6 +111,7 @@ impl App {
             run_count_current: 0,
             is_point_in_bounds: false,
             status: AppStatus::Running,
+            gui,
         }
     }
     pub fn start(&mut self) {
@@ -140,11 +147,11 @@ impl App {
     }
     pub fn set_run_count_total(&mut self, value: i32) {
         self.run_count_total = value;
-        gui::set(Logs::RunCountTotal, format!("{}", self.run_count_total));
+        self.gui.set(Logs::RunCountTotal, format!("{}", self.run_count_total));
     }
     pub fn set_run_count_current(&mut self, value: i32) {
         self.run_count_current = value;
-        gui::set(Logs::RunCountCurrent, format!("{}", self.run_count_current));
+        self.gui.set(Logs::RunCountCurrent, format!("{}", self.run_count_current));
     }
     pub fn set_mouse_pos(&mut self, pos: (i32, i32)) {
         self.mouse_pos = pos;
@@ -152,18 +159,18 @@ impl App {
         let item_slot_button = Rect::from_points(1493, 386, 1526, 418);
         let shared_cast_hla_and_item_slot = Rect::overlap(cast_hla_button, item_slot_button).expect("The cast hla button and item slot button should overlap.");
         self.is_point_in_bounds = Rect::point_inside_tupl(&shared_cast_hla_and_item_slot, self.mouse_pos);
-        gui::set(Logs::PointInBounds, format!("{}", self.is_point_in_bounds));
-        gui::set(Logs::MousePosition, format!("x: {}, y: {}", self.mouse_pos.0, self.mouse_pos.1));
+        self.gui.set(Logs::PointInBounds, format!("{}", self.is_point_in_bounds));
+        self.gui.set(Logs::MousePosition, format!("x: {}, y: {}", self.mouse_pos.0, self.mouse_pos.1));
         self.attempt_run();
     }
     pub fn set_menu_item_state(&mut self, active: bool) {
         self.menu_item_state = active;
-        gui::set(Logs::MagicMenuFocused, format!("{}", self.menu_item_state));
+        self.gui.set(Logs::MagicMenuFocused, format!("{}", self.menu_item_state));
         self.attempt_run();
     }
     pub fn set_status(&mut self, status: AppStatus) {
         self.status = status;
-        gui::set(Logs::AppStatus, format!("{:?}", status));
+        self.gui.set(Logs::AppStatus, format!("{:?}", status));
         self.attempt_run();
     }
     pub fn attempt_run(&mut self) {

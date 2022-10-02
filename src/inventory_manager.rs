@@ -153,9 +153,9 @@ pub fn menu_active_tracker(logGroup: &'static str, rect: vector::Rect) -> Receiv
         let a = og[0];
         let b = og[1];
         let diff = a - b;
-        gui::set_group(logGroup.clone(), "last", og[0].to_avgs_string());
-        gui::set_group(logGroup.clone(), "now ", cur_px_details.to_avgs_string());
-        gui::set_group(logGroup.clone(), "diff", diff.clone().to_avgs_string());
+        // gui::set_group(logGroup.clone(), "last", og[0].to_avgs_string());
+        // gui::set_group(logGroup.clone(), "now ", cur_px_details.to_avgs_string());
+        // gui::set_group(logGroup.clone(), "diff", diff.clone().to_avgs_string());
 
         if og[1] != cur_px_details {
           let f = &mut og;
@@ -189,4 +189,30 @@ pub fn menu_active_tracker(logGroup: &'static str, rect: vector::Rect) -> Receiv
   });
 
   receiver
+}
+
+use tokio::task;
+use tokio::time;
+
+pub async fn when_magic_active() -> () {
+  let join = task::spawn(async {
+  let magic_rect = crate::vector::Rect::from_size(1658, 238, 5, 5);
+    let _draw = 0;
+    loop {
+
+      let screenshot = screen::screenshot(magic_rect.x1, magic_rect.y1, magic_rect.width, magic_rect.height);
+      
+      if let Ok(image) = screenshot {
+        let cur_px_details = ImagePixelResults::from_pixel_bytes(&image.pixels);
+        if is_slot_active(&cur_px_details) {
+          return ();
+        } else {
+          continue;
+        }
+      }
+      time::sleep(time::Duration::from_millis(100)).await;
+    }
+  });
+  join.await.unwrap();
+  return ();
 }

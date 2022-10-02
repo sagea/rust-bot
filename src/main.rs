@@ -15,13 +15,12 @@ fn main() {
     use termion::event::Key;
     use termion::input::TermRead;
     use termion::raw::IntoRawMode;
-    use gui::{start};
     use std::io::{stdin};
-    start();
     let stdout = MouseTerminal::from(stdout().into_raw_mode().unwrap());
     let stdin = stdin();
+    let gui = gui::Gui::new();
     thread::spawn(|| {
-        let mut app = App::new();
+        let mut app = App::new(gui);
         app.start();
     });
     for c in stdin.keys() {

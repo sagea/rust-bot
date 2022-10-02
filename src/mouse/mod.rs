@@ -53,3 +53,23 @@ pub fn on_mouse_position_change_2() -> mpsc::Receiver<(i32, i32)> {
   });
   rx
 }
+
+use tokio::task;
+use tokio::time;
+
+use crate::vector::Rect;
+
+pub async fn when_mouse_enters(rect: &Rect) -> () {
+  let r = rect.clone();
+  let join = task::spawn(async move {
+    loop {
+      let cur = Enigo::mouse_location();
+      if Rect::point_inside_tupl(&r, cur) {
+        return;
+      }
+      time::sleep(time::Duration::from_millis(5)).await;
+    }
+  });
+  join.await.unwrap();
+  return ();
+}

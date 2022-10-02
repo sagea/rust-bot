@@ -1,5 +1,6 @@
 use std::cmp::{max, min};
 
+#[derive(Debug, Clone)]
 pub struct Rect {
   pub x1: i32,
   pub y1: i32,
@@ -51,5 +52,5 @@ impl Rect {
 
   pub fn point_inside_tupl(rect: &Rect, (x, y): (i32, i32)) -> bool {
     Rect::point_inside(rect, x, y)
-  }
+  }  
 }
